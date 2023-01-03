@@ -332,5 +332,9 @@ def setup():
     except ModuleNotFoundError:
         pass
 
+
 if __name__ == "__main__":
     setup()
+    print('---\033[m31赤色\033[0m---')
+    print('---\033[38;5;026m青色\033[0m---')
+    print('---\033[38;2;000;206;209mミント色\033[0m---')
