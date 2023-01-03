@@ -1,5 +1,5 @@
 from random import choice, random
-from typing import Union
+from typing import Union, List
 
 import charactors as c
 import colord_pythonista
@@ -72,14 +72,14 @@ class Wish():
 
 
 class WishFull(Wish):
-    char4: list[Union[c.Charactor, c.Weapon]] = []
-    weapon4: list[Union[c.Charactor, c.Weapon]] = []
-    pu4  : list[Union[c.Charactor, c.Weapon]] = []
-    item5: list[Union[c.Charactor, c.Weapon]] = []
-    pu5  : list[Union[c.Charactor, c.Weapon]] = []
+    char4: List[Union[c.Charactor, c.Weapon]] = []
+    weapon4: List[Union[c.Charactor, c.Weapon]] = []
+    pu4  : List[Union[c.Charactor, c.Weapon]] = []
+    item5: List[Union[c.Charactor, c.Weapon]] = []
+    pu5  : List[Union[c.Charactor, c.Weapon]] = []
 
-    def __init__(self, pu5: Union[list[Union[c.Charactor, c.Weapon]], None] = None,
-                 pu4: Union[list[Union[c.Charactor, c.Weapon]], None] = None,) -> None:
+    def __init__(self, pu5: Union[List[Union[c.Charactor, c.Weapon]], None] = None,
+                 pu4: Union[List[Union[c.Charactor, c.Weapon]], None] = None,) -> None:
         if pu5 is None:
             self.nopu5 = True
         else:
@@ -126,7 +126,7 @@ class WishFull(Wish):
 
 
 class EventWish(WishFull):
-    char4: list[Union[c.Charactor, c.Weapon]] = [
+    char4: List[Union[c.Charactor, c.Weapon]] = [
         c.Fischl, c.Barbara, c.Xiangling, c.Xingqiu, c.Sucrose, c.Noelle,
         c.Ningguang, c.Diona, c.Beidou, c.Chongyun, c.Xinyan, c.Razor,
         c.Bennett, c.Rosaria, c.Yanfei, c.Sayu, c.Kujou_Sara, c.Thoma,
@@ -140,6 +140,6 @@ class EventWish(WishFull):
         c.Weapon('武器13', 4), c.Weapon('武器14', 4), c.Weapon('武器15', 4),
         c.Weapon('武器16', 4), c.Weapon('武器17', 4), c.Weapon('武器18', 4),
     ]
-    item5: list[Union[c.Charactor, c.Weapon]] = [
+    item5: List[Union[c.Charactor, c.Weapon]] = [
         c.Jean, c.Diluc, c.Mona, c.Qiqi, c.Keqing, c.Tighnari,
     ]
