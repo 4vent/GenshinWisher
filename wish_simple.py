@@ -50,7 +50,6 @@ class Wish():
             self.th4 = 1
 
 
-
 def main():
     wish = Wish()
     count5 = 0
