@@ -263,14 +263,14 @@ ANSI_COLOR_EXT = [
 
 ANSI_COLOR = {
     0: (),
-    30: (0.1, 0.1, 0.1),
-    31: (0., 0., 0.),
-    32: (0., 0., 0.),
-    33: (0., 0., 0.),
-    34: (0., 0., 0.),
-    35: (0., 0., 0.),
-    36: (0., 0., 0.),
-    37: (0., 0., 0.),
+    30: ANSI_COLOR_EXT[8],
+    31: ANSI_COLOR_EXT[9],
+    32: ANSI_COLOR_EXT[10],
+    33: ANSI_COLOR_EXT[11],
+    34: ANSI_COLOR_EXT[12],
+    35: ANSI_COLOR_EXT[13],
+    36: ANSI_COLOR_EXT[14],
+    37: ANSI_COLOR_EXT[15],
 }
 
 
@@ -293,8 +293,7 @@ def setup():
                     num += c
                 
                 try:
-                    num = int(num)
-                    console.set_color(*ANSI_COLOR[num])
+                    console.set_color(*list(map(lambda x: x / 255, ANSI_COLOR[int(num)])))
                 except ValueError:
                     args = num.split(';')  # type: ignore
                     if len(args) == 3:
