@@ -1,6 +1,6 @@
 from random import random
-
-from tqdm import tqdm
+import colord_pythonista
+colord_pythonista.setup()
 
 
 RATE4 = 0.051
@@ -13,9 +13,27 @@ class Wish():
     def __init__(self) -> None:
         self.count4 = 0
         self.count5 = 0
+        self.compassion4 = False
+        self.compassion5 = False
     
     def wish(self):
-        return self.get_rarity()
+        rarity = self.get_rarity()
+        if rarity == 4:
+            if self.compassion4 or random() < 0.5:
+                self.compassion4 = False
+                return 44
+            else:
+                self.compassion4 = True
+                return 4
+        elif rarity == 5:
+            if self.compassion5 or random() < 0.5:
+                self.compassion5 = False
+                return 55
+            else:
+                self.compassion5 = True
+                return 5
+        else:
+            return rarity
     
     def get_rarity(self):
         self.set_th()
@@ -50,36 +68,9 @@ class Wish():
             self.th4 = 1
 
 
-def main():
-    wish = Wish()
-    count5 = 0
-    count4 = 0
-
-    COUNT = 10 ** 8
-    for _ in tqdm(range(COUNT)):
-        result = wish.wish()
-        if result == 5:
-            count5 += 1
-        elif result == 4:
-            count4 += 1
-
-    print('★4: ' + str(count4 * 100 / COUNT) + '%')
-    print('★5: ' + str(count5 * 100 / COUNT) + '%')
-
-
-def main1():
-    wish = Wish()
-    while True:
-        for _ in range(10):
-            r = wish.wish()
-            if r == 5:
-                print('\033[33m5 \033[0m', end='')
-            elif r == 4:
-                print('\033[35m4 \033[0m', end='')
-            else:
-                print(str(r) + ' ', end='')
-        if not input() == '':
-            break
-
-
-main1()
+class WishFull(Wish):
+    characters = [
+        
+    ]
+    def wish(self):
+        return super().wish()
