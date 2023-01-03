@@ -1,4 +1,5 @@
 import sys
+from typing import Union
 
 
 ANSI_COLOR_EXT = [
@@ -300,15 +301,15 @@ def setup():
                         console.set_color(*list(map(lambda x: x / 255, ANSI_COLOR_EXT[int(args[2])])))
                     else:
                         console.set_color(int(args[2]) / 255,
-                                        int(args[3]) / 255,
-                                        int(args[4]) / 255)
+                                          int(args[3]) / 255,
+                                          int(args[4]) / 255)
 
                 replace_ansi_escape_and_stdout_write(text[index:])
             except ValueError:
                 sys.stdout.write(str(text))
 
-        def print2(*values: object, sep: str | None = None, end: str | None = None,
-                file=None, flush=True):
+        def print2(*values: object, sep: Union[str, None] = None, end: Union[str, None] = None,
+                   file=None, flush=True):
             for v in values:
                 sys.stdout.write(str(v))
                 if file is not None:
@@ -333,4 +334,4 @@ def setup():
         pass
 
 if __name__ == "__main__":
-    main()
+    setup()
