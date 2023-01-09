@@ -69,12 +69,13 @@ def ピックアップが出るまで回す2():
     print(str(sum / ATTEMPT) + '回')
 
 
-def 凸るまで回す(凸数: int = 6, histgram=False):
+def 凸るまで回す(凸数: int = 6, 所持原石: int = 0, 所持運命: int = 0, histgram=False):
     wish = Wish()
     ATTEMPT = 10 ** 4
 
     sum_wishes = 0
-    sum_fee = 0
+    bettor_wishes = 10 ** 10
+    worse_wishes = 0
 
     under20k = 0
     in20k40k = 0
@@ -93,18 +94,21 @@ def 凸るまで回す(凸数: int = 6, histgram=False):
     for _ in range(ATTEMPT):
         i += 1
         pucount = 0
-        wishcount = 0
+        wishes = 0
         while True:
-            wishcount += 1
+            wishes += 1
             if wish.wish() == 55:
                 pucount += 1
                 if pucount > 凸数:
                     break
-        wishes = wishcount
-        fee = wishcount * 160 * COST
+        
         sum_wishes += wishes
-        sum_fee += fee
+        if bettor_wishes > wishes:
+            bettor_wishes = wishes
+        if worse_wishes < wishes:
+            worse_wishes = wishes
 
+        fee = (wishes * 160 - 所持運命 * 160 - 所持原石) * COST
         if fee < 2_0000:
             under20k += 1
         elif fee < 4_0000:
@@ -128,9 +132,17 @@ def 凸るまで回す(凸数: int = 6, histgram=False):
         else:
             over200k += 1
         # f.write(str(wishes) + '\n')
-        print(f'{wishes}回\t{fee:,.0f}円 \t(avg. {sum_wishes / i:.2f}回\t{sum_fee / i:,.0f}円)', end='')
+        print(f'今回 {str(wishes).ljust(4)       }\t{wishes         * 160:,.0f}個\t{fee:,.0f}円')
+        print(f'最良 {str(bettor_wishes).ljust(4)}\t{bettor_wishes  * 160:,.0f}個\t{(bettor_wishes * 160 - 所持運命 * 160 - 所持原石) * COST :,.0f}円')
+        print(f'最悪 {str(worse_wishes).ljust(4) }\t{worse_wishes   * 160:,.0f}個\t{(worse_wishes * 160 - 所持運命 * 160 - 所持原石) * COST  :,.0f}円')
+        print(f'平均 {sum_wishes / i:.2f}\t{sum_wishes / i * 160:,.0f}個\t{(sum_wishes * 160 / i - 所持運命 * 160 - 所持原石) * COST:,.0f}円')
         if histgram:
-            print(f'\t |0万| {under20k} |2| {in20k40k} |4| {in40k60k} |6| {in60k80k} |8| {in80k100k} |10| {in100k120k} |12| {in120k140k} |14| {in140k160k} |16| {in160k180k} |18| {in180k200k} |20| {over200k}', end='')
+            print(f'{str(under20k).ljust(6)}{str(in20k40k).ljust(6)}{str(in40k60k).ljust(6)}{str(in60k80k).ljust(6)}'
+                  f'{str(in80k100k).ljust(6)}{str(in100k120k).ljust(6)}{str(in120k140k).ljust(6)}'
+                  f'{str(in140k160k).ljust(6)}{str(in160k180k).ljust(6)}{str(in180k200k).ljust(6)}'
+                  f'{str(over200k).ljust(6)}', end='\n')
+            print('━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━┿━━━━━\n'
+                  '    0     2     4     6     8     10    12    14    16    18  20万円')
         if not input() == '':
             break
     # f.close()
@@ -140,4 +152,4 @@ def 凸るまで回す(凸数: int = 6, histgram=False):
 # 基本ガチャシミュレーター()
 # ピックアップが出るまで回す()
 # ピックアップが出るまで回す2()
-凸るまで回す(3)
+凸るまで回す(1, 0, histgram=True)

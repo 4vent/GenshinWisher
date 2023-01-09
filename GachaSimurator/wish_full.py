@@ -1,3 +1,5 @@
+from typing import Union
+import shutil
 from typing import Dict
 import charactors as c
 from wish import EventWish
@@ -10,8 +12,11 @@ from wish import EventWish
 COST = 1.49  # 8,080 / 12,000 yen
 
 
-def main(ljust_width=18):
-    from ljust_eastasianwidth import ljust2
+def main(cell_width=12, width: Union[int, None] = None):
+    from eastasianwidth import ljust2, width2
+
+    if width is None:
+        width = shutil.get_terminal_size().columns
 
     pu5 = [c.Raiden_Shogun]
     pu4 = [c.Kujou_Sara, c.Sayu, c.Rosaria]
@@ -20,6 +25,7 @@ def main(ljust_width=18):
 
     hit_chars: Dict[c.Charactor, int] = {}
     while True:
+        carsole = 0
         pu4count = 0
         pu5count = 0
         gems += 1600
@@ -38,8 +44,11 @@ def main(ljust_width=18):
                     print('\033[38;5;045m', end='')
                 else:
                     print('\033[38;5;053m', end='')
-            print(ljust2(result.name, ljust_width), end=' ')
-            if i == 4:
+            cell = ljust2(result.name, cell_width) + ' '
+            print(ljust2(result.name, cell_width), end='')
+            carsole += width2(cell)
+            if carsole + cell_width > width:
+                carsole = 0
                 print('')
             print('\033[0m', end='')
 
@@ -50,8 +59,10 @@ def main(ljust_width=18):
         
         # for _ in range(pu4count):
         #     print('\033[38;5;045m*4PU\033[0m ', end='')
-        # for _ in range(pu5count):
+        # for _ in range(pu5count):ß
         #     print('\033[38;5;220m*5PU!\033[0m ', end='')
+
+        carsole = 0
         
         print('')
         for k, v in hit_chars.items():
@@ -68,13 +79,18 @@ def main(ljust_width=18):
                 else:
                     print('\033[38;5;053m', end='')
 
-            print(ljust2(k.name + ':' + ('無' if v == 0 else str(v) if v < 6 else f'完({v})') + '凸', ljust_width), end='\n')
+            cell = k.name + ':' + ('無' if v == 0 else str(v) if v < 6 else f'完({v})') + '凸 '
+            print(ljust2(cell, cell_width), end='')
             print('\033[0m', end='')
+
+            carsole += width2(cell)
+            if carsole + cell_width > width:
+                carsole = 0
+                print('')
         
         if not input('\n') == '':
             break
 
 
-
 if __name__ == "__main__":
-    main(10)
+    main()
